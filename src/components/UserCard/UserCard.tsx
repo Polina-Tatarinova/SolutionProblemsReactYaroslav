@@ -1,7 +1,7 @@
 import {User} from '../../tasks/Task1_JSX_Props_Lists'
 
 
-const UserCard=({user})=>{
+const UserCard=({user}:{user:User})=>{
 return(
 <>
 <h3 style={{ marginBottom: '1rem', color: 'var(--text-main)' }}>{user.name}</h3>
