@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 // Задание 2: Хук useState
 // ТЗ:
@@ -17,11 +17,41 @@ interface Product {
 export const Task2_useState: React.FC = () => {
   // Заготовка состояния товаров
   const [products, setProducts] = useState<Product[]>([
-    { id: 1, title: 'Клавиатура Mechanical RGB', price: 4500 },
-    { id: 2, title: 'Игровая мышь Wireless', price: 3200 },
+    { id: 1, title: "Клавиатура Mechanical RGB", price: 4500 },
+    { id: 2, title: "Игровая мышь Wireless", price: 3200 },
   ]);
 
+  const [counter, setCounter] = useState(0);
+  const [step, setStep] = useState(1);
+
+  const [titleInput, setTitleInput] = useState("");
+  const [priceInput, setPriceInput] = useState("");
   // TODO: Добавьте необходимые `useState` для счетчика, шага и полей ввода формы
+
+  const minus = () => {
+    setCounter((prevCount) => prevCount - step);
+  };
+
+  const plus = () => {
+    setCounter((prevCount) => prevCount + step);
+  };
+
+  const changeStep = (event) => {
+    const value = Number(event.target.value) || 1;
+    setStep(value);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const newProduct = {
+      id: Date.now() + Math.random(),
+      title: titleInput,
+      price: Number(priceInput),
+    };
+    setProducts([...products, newProduct]);
+    setTitleInput("");
+    setPriceInput("");
+  };
 
   return (
     <div className="task-container">
@@ -29,57 +59,114 @@ export const Task2_useState: React.FC = () => {
         <h4>📋 Задание 2: Состояние с useState</h4>
         <ul>
           <li>Реализуйте счетчик с возможностью настраивать шаг (step).</li>
-          <li>Создайте контролируемую форму для добавления товаров в список.</li>
-          <li>Обработайте сабмит формы и очистите поля ввода после добавления.</li>
+          <li>
+            Создайте контролируемую форму для добавления товаров в список.
+          </li>
+          <li>
+            Обработайте сабмит формы и очистите поля ввода после добавления.
+          </li>
         </ul>
       </div>
 
       <div className="grid-2">
         {/* Часть A: Интерактивный счетчик */}
         <div className="demo-area">
-          <h3 style={{ marginBottom: '1rem' }}>1. Счетчик с настраиваемым шагом</h3>
-          
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
-            <span style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>Значение: 0</span>
-            <button className="btn btn-secondary">-</button>
-            <button className="btn">+</button>
+          <h3 style={{ marginBottom: "1rem" }}>
+            1. Счетчик с настраиваемым шагом
+          </h3>
+
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "1rem",
+              marginBottom: "1rem",
+            }}
+          >
+            <span style={{ fontSize: "1.5rem", fontWeight: "bold" }}>
+              Значение: {counter}
+            </span>
+            <button className="btn btn-secondary" onClick={minus}>
+              -
+            </button>
+            <button className="btn" onClick={plus}>
+              +
+            </button>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <label style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>Шаг прибавления:</label>
+          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+            <label style={{ fontSize: "0.9rem", color: "var(--text-muted)" }}>
+              Шаг прибавления:{step}
+            </label>
             <input
               type="number"
               className="input-field"
-              style={{ width: '80px' }}
-              defaultValue={1}
+              style={{ width: "80px" }}
+              value={step}
+              onChange={changeStep}
             />
           </div>
         </div>
 
         {/* Часть B: Форма товаров */}
         <div className="demo-area">
-          <h3 style={{ marginBottom: '1rem' }}>2. Список товаров и форма</h3>
-          
-          <form style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '1rem' }}>
+          <h3 style={{ marginBottom: "1rem" }}>2. Список товаров и форма</h3>
+
+          <form
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "0.75rem",
+              marginBottom: "1rem",
+            }}
+          >
             <input
               type="text"
               className="input-field"
-              placeholder="Название товара..."
+              placeholder="Название товара"
+              value={titleInput}
+              onChange={(e) => setTitleInput(e.target.value)}
             />
             <input
               type="number"
               className="input-field"
-              placeholder="Цена в рублях..."
+              placeholder="Цена в рублях"
+              value={priceInput}
+              onChange={(e) => setPriceInput(e.target.value)}
             />
-            <button type="button" className="btn btn-success">Добавить товар</button>
+            <button
+              type="button"
+              className="btn btn-success"
+              onClick={handleSubmit}
+            >
+              Добавить товар
+            </button>
           </form>
 
-          <h4 style={{ fontSize: '0.95rem', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>Товары в корзине:</h4>
-          <ul style={{ listStyle: 'none', padding: 0 }}>
+          <h4
+            style={{
+              fontSize: "0.95rem",
+              color: "var(--text-muted)",
+              marginBottom: "0.5rem",
+            }}
+          >
+            Товары в корзине:
+          </h4>
+          <ul style={{ listStyle: "none", padding: 0 }}>
             {products.map((p) => (
-              <li key={p.id} style={{ padding: '0.4rem 0', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'space-between' }}>
+              <li
+                key={p.id}
+                style={{
+                  padding: "0.4rem 0",
+                  borderBottom: "1px solid rgba(255,255,255,0.05)",
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
                 <span>{p.title}</span>
-                <strong style={{ color: 'var(--accent-emerald)' }}>{p.price} ₽</strong>
+                <strong style={{ color: "var(--accent-emerald)" }}>
+                  {p.price} ₽
+                </strong>
               </li>
             ))}
           </ul>
