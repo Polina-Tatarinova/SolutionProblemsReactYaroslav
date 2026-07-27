@@ -3,11 +3,29 @@ import React, { useState, useEffect } from "react";
 // Задание 3: Хук useEffect, побочные эффекты и функция очистки (cleanup)
 // ТЗ:
 // 1. Часть A (Таймер/Часы): Реализуйте живые часы. Используйте `setInterval` внутри `useEffect`.
-//    ОБЯЗАТЕЛЬНО возвращайте функцию очистки `clearInterval(timerId)`, чтобы избежать утечек памяти!
+//    ОБЯЗАТЕЛЬНО возвращайте функцию очистки `clearInterval(timerId)`, чтобы избежать утечек памяти!-ок, сделано
+
 // 2. Часть B (Симуляция загрузки данных с сервера):
 //    - При выборе категории ('news' или 'sports') запускайте загрузку данных.
 //    - Отображайте индикатор загрузки (loading: true).
 //    - Задержка симуляции 1 секунда через `setTimeout`.
+
+const categoryes = {
+  news: [
+    "Next.js 15 упрощает работу с серверными компонентами",
+    "Google объявила о встроенной поддержке WebAssembly в Chrome",
+    "Новый стандарт ECMAScript 2026 добавляет декораторы и оператор `??=`",
+    "GitHub Copilot теперь бесплатен для open-source проектов",
+    "Запущен спутниковый интернет Starlink для удалённых регионов",
+  ],
+  sports: [
+    "Российский теннисист вышел в финал Уимблдона",
+    "Олимпийский комитет утвердил новые виды спорта на Игры-2028",
+    "Хоккейная сборная выиграла Кубок мира по буллитам",
+    "Легкоатлетка побила мировой рекорд на 100-метровке",
+    "Баскетбольный клуб подписал контракт с европейской звездой",
+  ],
+};
 
 export const Task3_useEffect: React.FC = () => {
   const [category, setCategory] = useState<"news" | "sports">("news");
@@ -16,7 +34,28 @@ export const Task3_useEffect: React.FC = () => {
   const [time, setTime] = useState<string>("");
 
   // TODO: 1. Добавьте useEffect для секундного таймера (живые часы)
+  useEffect(() => {
+    const timerId = setInterval(() => {
+      const now = new Date();
+      const hours = now.getHours();
+      const minutes = now.getMinutes();
+      const second = now.getSeconds();
+      setTime(`${hours}:${minutes}:${second}`);
+    }, 1000);
+
+    return () => clearInterval(timerId);
+  }, []);
+
   // TODO: 2. Добавьте useEffect для загрузки данных при изменении состояния `category`
+  useEffect(() => {
+    setLoading(true);
+    const loading = setTimeout(() => {
+      setItems(categoryes[category]);
+      setLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(loading);
+  }, [category]);
 
   return (
     <div className="task-container">
@@ -57,7 +96,7 @@ export const Task3_useEffect: React.FC = () => {
                 color: "var(--accent-cyan)",
               }}
             >
-              {time || "00:00:00"}
+              {time}
             </span>
             <p
               style={{
