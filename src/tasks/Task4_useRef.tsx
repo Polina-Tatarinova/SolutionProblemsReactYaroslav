@@ -11,16 +11,15 @@ export const Task4_useRef: React.FC = () => {
   const [text, setText] = useState<string>("");
 
   // TODO: 1. Создайте inputRef через useRef
-  const inputRef = useRef<HTMLInputElement>(null)
-  const handleClick = () =>{
-    inputRef.current?.focus()
-  }
+  const inputRef = useRef<HTMLInputElement>(null);
+  const handleClick = () => {
+    inputRef.current?.focus();
+  };
   // TODO: 2. Подсчитайте количество ререндеров через useRef
-  const renderRef = useRef(1)
-  useEffect(()=>{
-    renderRef.current += 1
-  })
-  
+  const renderRef = useRef(1);
+  useEffect(() => {
+    renderRef.current += 1;
+  });
 
   return (
     <div className="task-container">
@@ -47,14 +46,15 @@ export const Task4_useRef: React.FC = () => {
 
           <div style={{ display: "flex", gap: "0.5rem", marginBottom: "1rem" }}>
             <input
-            ref={inputRef}
+              ref={inputRef}
               type="text"
               className="input-field"
               placeholder="Нажмите кнопку чтобы сфокусировать..."
               style={{ flex: 1 }}
-              
             />
-            <button className="btn" onClick={handleClick}>Сфокусировать</button>
+            <button className="btn" onClick={handleClick}>
+              Сфокусировать
+            </button>
           </div>
         </div>
 
@@ -75,7 +75,6 @@ export const Task4_useRef: React.FC = () => {
             onChange={(e) => setText(e.target.value)}
             placeholder="Введите текст для обновления state..."
             style={{ width: "100%", marginBottom: "1rem" }}
-            
           />
 
           <div
@@ -86,7 +85,9 @@ export const Task4_useRef: React.FC = () => {
             }}
           >
             Количество ререндеров компонента:{" "}
-            <strong style={{ color: "var(--accent-purple)" }}>{renderRef.current}</strong>
+            <strong style={{ color: "var(--accent-purple)" }}>
+              {renderRef.current}
+            </strong>
           </div>
         </div>
       </div>

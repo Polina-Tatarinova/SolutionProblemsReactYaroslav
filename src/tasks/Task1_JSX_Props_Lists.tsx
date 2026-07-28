@@ -16,7 +16,6 @@ export interface User {
 // 3. Отрендерите список пользователей с помощью массива `users.map(...)`.
 // 4. Обязательно укажите уникальный `key` для каждого элемента списка.
 
-
 const initialUsers: User[] = [
   { id: 1, name: "Алексей Иванов", role: "Frontend Developer", isOnline: true },
   { id: 2, name: "Мария Сидорова", role: "UI/UX Designer", isOnline: false },

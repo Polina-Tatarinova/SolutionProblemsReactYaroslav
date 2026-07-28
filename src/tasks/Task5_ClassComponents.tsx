@@ -13,7 +13,7 @@ interface State {
   logs: string[];
 }
 
-export class Task5_ClassComponents extends Component<{}, State> {
+export class CounterLoggerClass extends Component<{}, State> {
   constructor(props: {}) {
     super(props);
     this.state = {
@@ -23,16 +23,39 @@ export class Task5_ClassComponents extends Component<{}, State> {
   }
 
   // TODO: Реализуйте методы жизненного цикла:
+
   // componentDidMount()
+  componentDidMount() {
+    this.setState((prevState) => ({
+      logs: [...prevState.logs, "компонент смонтирован"],
+    }));
+  }
+
   // componentDidUpdate(prevProps, prevState)
-  // componentWillUnmount()
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.count !== this.state.count) {
+      const message = `Счётчик изменён: ${prevState.count} → ${this.state.count}`;
+      console.log(message);
+      this.setState((prevState) => ({
+        logs: [...prevState.logs, message],
+      }));
+    }
+  } //господи какой пиздец эта тема
+
+  componentWillUnmount = () => {
+    console.log("Компонент будет удален из DOM");
+  };
 
   handleIncrement = () => {
-    // TODO: Обновите счетчик с помощью this.setState
+    this.setState((prevState) => ({
+      count: prevState.count + 1,
+    }));
   };
 
   handleDecrement = () => {
-    // TODO: Обновите счетчик с помощью this.setState
+    this.setState((prevState) => ({
+      count: prevState.count - 1,
+    }));
   };
 
   render() {

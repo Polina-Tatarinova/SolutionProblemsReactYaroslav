@@ -11,7 +11,10 @@ import { Solution3 } from "./solutions/Solution3";
 import { Task4_useRef } from "./tasks/Task4_useRef";
 import { Solution4 } from "./solutions/Solution4";
 
-import { Task5_ClassComponents } from "./tasks/Task5_ClassComponents";
+import {
+  CounterLoggerClass,
+  Task5_ClassComponents,
+} from "./tasks/Task5_ClassComponents";
 import { Solution5 } from "./solutions/Solution5";
 
 import { Task6_CustomHooks } from "./tasks/Task6_CustomHooks";
@@ -44,7 +47,7 @@ export const App: React.FC = () => {
       case 4:
         return showSolution ? <Solution4 /> : <Task4_useRef />;
       case 5:
-        return showSolution ? <Solution5 /> : <Task5_ClassComponents />;
+        return showSolution ? <Solution5 /> : <CounterLoggerClass />;
       case 6:
         return showSolution ? <Solution6 /> : <Task6_CustomHooks />;
       case 7:
