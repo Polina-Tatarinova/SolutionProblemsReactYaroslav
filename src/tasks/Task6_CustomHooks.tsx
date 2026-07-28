@@ -11,15 +11,46 @@ import React, { useState, useEffect } from "react";
 
 // TODO: Реализуйте хук useLocalStorage здесь
 export function useLocalStorage<T>(key: string, initialValue: T) {
-  // Напишите реализацию кастомного хука
-  const [value, setValue] = useState<T>(initialValue);
+  const [value, setValue] = useState<T>(() => {
+    try {
+      const item = localStorage.getItem(key);
+      return item ? JSON.parse(item) : initialValue;
+    } catch {
+      return initialValue;
+    }
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+    } catch (error) {
+      console.error(error);
+    }
+  }, [key, value]);
+
   return [value, setValue] as const;
 }
 
 // TODO: Реализуйте хук useWindowSize здесь
 export function useWindowSize() {
-  // Напишите реализацию кастомного хука
-  return { width: 0, height: 0 };
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
+  useEffect(() => {
+    function settingSize() {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    }
+
+    window.addEventListener("resize", settingSize);
+    return () => window.removeEventListener("resize", settingSize);
+  }, []);
+
+  return windowSize;
 }
 
 export const Task6_CustomHooks: React.FC = () => {
