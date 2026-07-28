@@ -11,6 +11,7 @@ export const Task4_useRef: React.FC = () => {
   const [text, setText] = useState<string>("");
 
   // TODO: 1. Создайте inputRef через useRef
+  const inputRef = useRef<HTMLInputElement>(null);
   // TODO: 2. Подсчитайте количество ререндеров через useRef
 
   return (
